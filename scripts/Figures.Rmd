@@ -1,0 +1,295 @@
+---
+title: "nCov202004"
+author: "lhj"
+date: "6/18/2020"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Figure1b:Sequencing Statistics of Depth
+```{r Fig1b_Depth,fig.width=20,fig.height=8}
+      DepthDATA      <- read.table("../results/Fig1b-allSamples.depth.txt", header=TRUE)
+      posi <- DepthDATA$posi
+        dep1_4 <- DepthDATA$dep1_4
+        dep1_2 <- DepthDATA$dep1_2
+        dep3_4 <- DepthDATA$dep3_4
+        
+        dep1_4_log10 <- log(dep1_4+1,10)
+        dep1_2_log10 <- log(dep1_2+1,10)
+        dep3_4_log10 <- log(dep3_4+1,10)
+  
+        out_tu <- paste("./outFigures/Fig1b-allSamples.depth.pdf", sep = "") 
+  
+        ggplot(DepthDATA,aes(x = posi, y = dep1_2_log10)) + #ylim(0,5)+
+           geom_ribbon(aes(ymin=dep1_4_log10, ymax=dep3_4_log10, x=posi), fill = "grey", alpha = 0.8) + 
+           geom_line(size = 1.3) +
+      
+           ylab("Sequencing Depth (Log)") + xlab('') + 
+           
+           scale_x_continuous(labels = NULL,expand = c(0,0)) +
+           theme_bw()+ 
+           theme(axis.text.y=element_text(family="Times",size=24,face="plain"), 
+            axis.title.y=element_text(family="Times",size = 24,face="plain"), 
+           panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.background = 		element_blank(),panel.border = element_blank()) +  
+           
+         ggsave(out_tu,width = 26,height = 8)
+
+```
+
+
+
+#Figure1c:Statistic of Genome Coverage VS Ct value 
+```{r,fig.width=20,fig.height=8}
+          data_file <- paste("../results/Fig1c-CoverageVSCt.txt",sep = "")
+          print(data_file)
+          DATA <- read.table(data_file,sep = '\t',header = TRUE)
+          Ct <- DATA$Ct
+          Ct <- as.numeric(as.character(Ct))
+          perct_10X <- DATA$Cov10X
+          out_tu <- paste("./outFigures/Fig1c-CoverageVSCt.pdf", sep = "") 
+          sample <-DATA$sample
+          P <- ggplot(DATA,aes(x=Ct,y=perct_10X)) +
+            geom_point() + ylab("Coverage(%)")+xlab("Ct value") +   ylim(0,100) +    
+            theme_bw()+  
+            theme( axis.text.x=element_text(colour="black",family="Times",size=14,angle = 90, hjust = 1), 
+                   axis.text.y=element_text(family="Times",size=14,face="plain"), 
+                   axis.title.y=element_text(family="Times",size = 14,face="plain"), 
+                   axis.title.x=element_text(family="Times",size = 14,face="plain"), 
+                   plot.title = element_text(family="Times",size=15,face="bold",hjust = 0.5), 
+                   panel.grid.major = element_blank(), 
+                   panel.grid.minor = element_blank()) +  scale_x_continuous(limits = c(20,40)) + 
+          ggsave(out_tu,width = 12,height = 7)
+
+
+
+
+```
+
+
+
+
+
+
+#Figure4c: boxplot of singleton and shared iSNV MuAF (Nonsyn and Syn)  
+```{r,fig.width=6,fig.height=3}
+library(ggplot2)
+
+	Freqboxplot_P = "../results/"
+	Freqboxplot_F =  paste(Freqboxplot_P,"Fig4c-single_share.snvMuAF.txt",sep = "")
+	Data = read.table(Freqboxplot_F,sep = '\t',header = TRUE)
+	eff = Data$eff	
+	Freq = Data$Freq
+	flag =  Data$flag
+
+	outPictureF =  paste("./outFigures/Fig4c--single_share.Nonsun_Syn.snvMuAF.boxplot.pdf",sep = "")
+	ggplot(Data,aes(x=eff,y=Freq)) +   
+  	geom_boxplot(outlier.colour = NA,aes(color = flag))  + 
+  	geom_jitter(aes(fill="black",alpha=0.1),width =0.2,shape =16,size=1.2)+  
+  	ggtitle(Flag)+ 
+  	theme_bw()+ 
+  	theme(legend.position="none",
+        	axis.text.x=element_text(colour="black",family="Times",size=6,angle = 0, hjust = 1),
+        	axis.text.y=element_text(family="Times",size=6,face="plain"), 
+       		axis.title.y=element_text(family="Times",size = 6,face="plain"), 
+        	axis.title.x=element_text(family="Times",size = 6,face="plain"), 
+        	plot.title = element_text(family="Times",size=6,face="bold",hjust = 0.5), 
+        	panel.grid.major = element_blank(), 
+        	panel.grid.minor = element_blank() ) +
+  	ylab("MuAF") + xlab('') + 
+  	scale_x_discrete(limits=c("single-Nonsyn","single-Syn", "share-Nonsyn", "share-Syn"))   
+
+ggsave(outPictureF,width = 6,height = 3)  
+
+
+
+
+```
+
+
+#Figure4fg:base substitution types Statistics for Single or Shared iSNV Sites
+```{r,fig.width=20,fig.height=8}
+    ###single or share snv  Count barplot 
+library(ggplot2)
+flags = c('share','single')
+  for (Flag in flags) {
+	Freqboxplot_P = "../results/"
+	Freqboxplot_F =  paste(Freqboxplot_P,"Fig4fg-",Flag, "--snv-effStat.txt",sep = "")
+	Data = read.table(Freqboxplot_F,sep = '\t',header = TRUE)
+	baseChange = Data$baseChange	
+	Nonsyn = Data$Nonsyn_Num
+	Syn = Data$Syn_Num
+	NonCoding =  Data$Non_Coding_Num
+	all = Syn + Nonsyn + NonCoding
+
+	outPictureF =  paste("./outFigures/Fig4fg-",Flag,"--snv-effStat.barplot.pdf",sep = "")
+	ggplot(Data,aes(x=baseChange,y=all)) +   
+  geom_bar(stat='identity')  + 
+  ggtitle(paste(Flag,sep = ""))+ 
+  theme_bw()+ 
+  theme(legend.position="none",
+        axis.text.x=element_text(colour="black",family="Times",size=6,angle = 0, hjust = 1),
+        axis.text.y=element_text(family="Times",size=6,face="plain"), 
+        axis.title.y=element_text(family="Times",size = 6,face="plain"), 
+        axis.title.x=element_text(family="Times",size = 6,face="plain"), 
+        plot.title = element_text(family="Times",size=6,face="bold",hjust = 0.5), 
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank() ) +
+  ylab("No.of iSNVs") + 
+  scale_x_discrete(limits=c("G>U","C>U", "C>A", "A>G", "G>C", "A>U", "U>G", "U>C", "G>A", "U>A", "A>C", "C>G"))   
+
+ggsave(outPictureF,width = 6,height = 3)  
+}
+    
+
+
+
+```
+
+
+
+#Figure4hi:MuAF distribtion of Base Mutation Types for Single or Shared iSNV Sites
+```{r,fig.width=6,fig.height=3}
+library(ggplot2)
+flags = c('single','share')
+  for (Flag in flags) {
+	Freqboxplot_P = "../results/"
+	Freqboxplot_F =  paste(Freqboxplot_P,"Fig4hi-",Flag, "-RplotFreqboxDataF.txt",sep = "")
+	Data = read.table(Freqboxplot_F,sep = '\t',header = TRUE)
+	Freq = Data$Freq
+	flagShare = Data$Flag
+	baseChange =  Data$BaseChange
+
+	outPictureF =  paste("./outFigures/Fig4hi-",Flag,"-RplotFreqboxDataF.boxplot.pdf",sep = "")
+	ggplot(Data,aes(x=baseChange,y=Freq/100)) +   
+  	geom_boxplot(outlier.colour = NA,aes(color = 1))  + 
+  	geom_jitter(aes(fill="black",alpha=0.1),width =0.2,shape =16,size=1.2)+  
+  	ggtitle(Flag)+ 
+  	theme_bw()+ 
+  	theme(legend.position="none",
+        	axis.text.x=element_text(colour="black",family="Times",size=6,angle = 0, hjust = 1),
+        	axis.text.y=element_text(family="Times",size=6,face="plain"), 
+       		axis.title.y=element_text(family="Times",size = 6,face="plain"), 
+        	axis.title.x=element_text(family="Times",size = 6,face="plain"), 
+        	plot.title = element_text(family="Times",size=6,face="bold",hjust = 0.5), 
+        	panel.grid.major = element_blank(), 
+        	panel.grid.minor = element_blank() ) +
+  	ylab("MuAF") + xlab('') + 
+  	scale_x_discrete(limits=c("G>U","C>U", "C>A", "A>G", "G>C", "A>U", "U>G", "U>C", "G>A", "U>A", "A>C", "C>G"))   
+
+ggsave(outPictureF,width = 6,height = 3)  
+
+}
+
+   
+
+
+
+```
+
+
+
+
+
+#SFigure1:base substitution types Statistics for Single or Shared SNP Sites
+```{r,fig.width=20,fig.height=8}
+  library(ggplot2)
+  flags = c('single','share','shareAndsingle')  
+  for (Flag in flags) {
+    
+    Freqboxplot_P = "../results/"
+    Freqboxplot_F =  paste(Freqboxplot_P,"Sfig1-",Flag, "--SNP-effStat.txt",sep = "")
+    Data = read.table(Freqboxplot_F,sep = '\t',header = TRUE)
+    baseChange = Data$baseChange	
+    eff = Data$eff
+    Count = Data$Count
+    
+    outPictureF =  paste("./outFigures/Sfig1-",Flag,"-SNPbaseSubti.barplot.pdf",sep = "")
+    ggplot(Data,aes(x=baseChange,y=Count,fill=eff)) +   
+      geom_bar(stat='identity')  + 
+      ggtitle(paste(Flag ,"  SNPs ",sep = ""))+ 
+      theme_bw()+ 
+      theme(legend.position="none",
+            axis.text.x=element_text(colour="black",family="Times",size=6,angle = 0, hjust = 1),
+            axis.text.y=element_text(family="Times",size=6,face="plain"), 
+            axis.title.y=element_text(family="Times",size = 6,face="plain"), 
+            axis.title.x=element_text(family="Times",size = 6,face="plain"), 
+            plot.title = element_text(family="Times",size=6,face="bold",hjust = 0.5), 
+            panel.grid.major = element_blank(), 
+            panel.grid.minor = element_blank() ) +
+      ylab("No.of SNP") + xlab('')+
+      scale_x_discrete(limits=c("C>U","A>G", "G>U", "G>A", "U>C", "C>A", "G>C", "U>G", "C>G", "A>U", "U>A", "A>C"))   
+    ggsave(outPictureF,width = 6,height = 3)  
+  }
+
+
+
+```
+
+
+
+#ransum test
+```{r}
+#####Fig4c share ransum test
+Freqboxplot_P = "../results/"
+Freqboxplot_F =  paste(Freqboxplot_P, "Fig4c-ranksum-share.snvMuAF.txt",sep = "")
+Freqboxplot_F_data = read.table(Freqboxplot_F,sep = '\t',header = TRUE)
+eff = Freqboxplot_F_data$eff
+Freq = Freqboxplot_F_data$Freq
+share_res <- wilcox.test(Freq ~ eff, data = Freqboxplot_F_data,alternative = "two.sided")
+print("share")
+
+share_res
+
+
+#ransum test
+######Fig4c single ransum test
+Freqboxplot_P = "../results/"
+Freqboxplot_F =  paste(Freqboxplot_P, "Fig4c-ranksum-single.snvMuAF.txt",sep = "")
+Freqboxplot_F_data = read.table(Freqboxplot_F,sep = '\t',header = TRUE)
+eff = Freqboxplot_F_data$eff
+Freq = Freqboxplot_F_data$Freq
+single_res <- wilcox.test(Freq ~ eff, data = Freqboxplot_F_data,alternative = "two.sided")
+print("single")
+
+single_res
+
+
+
+
+#ransum test
+######Nonsyn--share and single 
+Freqboxplot_P = "../results/"
+Freqboxplot_F =  paste(Freqboxplot_P, "Fig4c-ranksum-Nonsyn.txt",sep = "")
+Freqboxplot_F_data = read.table(Freqboxplot_F,sep = '\t',header = TRUE)
+eff = Freqboxplot_F_data$eff
+Freq = Freqboxplot_F_data$Freq
+share_res <- wilcox.test(Freq ~ eff, data = Freqboxplot_F_data,alternative = "two.sided")
+print("Nonsyn")
+share_res
+
+
+
+#ransum test
+######Fig4i: c>U and U>C  with other types
+Freqboxplot_P = "../results/"
+Freqboxplot_F =  paste(Freqboxplot_P, "Fig4hi-share-RplotFreqboxDataF.txt",sep = "")
+Freqboxplot_F_data = read.table(Freqboxplot_F,sep = '\t',header = TRUE)
+BaseChange = Freqboxplot_F_data$BaseChange
+Freq = Freqboxplot_F_data$Freq
+share_res <- wilcox.test(Freq ~ BaseChange, data = Freqboxplot_F_data,alternative = "two.sided")
+print("C>U and U>C")
+share_res
+
+
+
+
+```
+
