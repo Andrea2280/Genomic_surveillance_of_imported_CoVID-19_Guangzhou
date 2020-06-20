@@ -13,40 +13,35 @@ While China experienced a decline in daily growth rate of COVID-19, importations
 - Deletion mutations could be identified in the viral genome.
 - C-U substitution might have selective advantage during viral transmissions.
 
-
 ## Dependencies
 
 - MAFFT 7.458
 - IQ-Tree2 rc2
 - RAxML 8.2.12
 - ggtree 1.14.6
+- pangolin V1.1.8(https://github.com/hCoV-2019/pangolin)
 - Biopython
-- python 3.7
+- python 2.7
+- python 3.6
 - R version 3.5.1
 
-
-## Data
-1. sample_info.csv : Sequencing sample information.
-2. Public_SARS-CoV-2_geneomes_info.csv: Public SARS-CoV-2 genome sequences ID used in the analyses.  
-
+## Repo Contents
+1. data: preprocessed data used for analysis.
+2. result: result files for figure visualization.
+3. scripts: python script and R script for analysis and visulization.
 
 ## Phylogenetic analysis
-Multiple alignments of genome sequences were performed by using MAFFT v7.458(Katoh et al., 2002) and manually inspected by using MEGA v10.1.8(Sudhir et al., 2018). Given the bias of genome coverage of public genome and sequences in this study, part of the 5’ and 3’ untranslated region was removed and the aligned genome length was 29697 nucleotides. We explored the phylogenetic structure with maximum likelihood (ML)method. ML Phylogenies of large alignment (>6000 genomes) were inferred by using IQ-Tree2(Minh et al., 2020) (rc2) with the best-fitting substitution model parameters (GTR+F+R2) estimated by Model Finder and 1000 rapid bootstrapping replicates. Phylogenetic analyses of <200 viral genomes were performed by using RAxML v8.2.12(Stamatakis, 2014)with 1000 bootstrap replicates and employing the GTRGAMMA+I model. The generated phylogenetic trees were visualized with the R package ggtree v1.14.6(Yu et al., 2017).
+1. Multi-Alignment of the SARS-CoV-2 genomes : `mafft --thread 10 --auto $fasta_file > $align_result_file`
+
+2. Trim Alignment file: `python ./scripts/Trim_UTR_multialign_fasta.py $align_result_file $align_trim_file`
+
+3. Iqtree phylogenetic analysis: `iqtree -s $align_trim_file --prefix iqtree_result -m GTR+F+R2 -B 1000 -cmax 30 -redo -T 24`
+
+4. RAXML phylogenetic analysis: `raxmlHPC-PTHREADS -s $align_trim_file -n raxmltree_result -m GTRGAMMAI -f a -x 12345 -N 1000 -p 123456 -T 24 -k`
+
+5. pangolin lineage analysis: `pangolin $fasta_file -t 24`
 
 
-~~~
-# Multi-Alignment
-mafft --thread 10 --auto $fasta_file > $align_result_file
-
-# Trim Alignment file
-python Trim_UTR_multialign_fasta.py $align_result_file $align_trim_file
-
-# Iqtree phylogenetic analysis
-iqtree -s $align_trim_file --prefix iqtree_result -m GTR+F+R2 -B 1000 -cmax 30 -redo -T 24
-
-# RAXML phylogenetic analysis
-raxmlHPC-PTHREADS -s $align_trim_file -n raxmltree_result -m GTRGAMMAI -f a -x 12345 -N 1000 -p 123456 -T 24 -k
-~~~
 ## Genome assembly and variations calling
 
 1. To obtain consensus sequences and deletion mutations: `snakemake -s nCov_assembly_pipeline.py  -p`
@@ -61,4 +56,10 @@ raxmlHPC-PTHREADS -s $align_trim_file -n raxmltree_result -m GTRGAMMAI -f a -x 1
 
 4. To annotate the indel that were filted:`java -jar snpEff.jar ann  MN908947   ${sample}.indel.vcf    >./{sample}.indel.snpeffAnno.vcf`
 
-## Figure scripts
+
+## Citation
+If you use data, results or conclusion from this work, please cite:
+
+## Acknowledgement
+This study was supported by National Natural Science Foundation of China (31870079, 91953122, 31871326), National Science and Technology Major Project of the Ministry of Science and Technology of China (2017ZX10103011, 2018ZX10305410, 2018ZX10201001), Guangdong Provincial Novel Coronavirus Scientific and Technological Project (2020111107001), Guangdong Basic and Applied Basic Research Foundation (2020A1515010776 and 2020B1515020057) and the Beijing Nova Program (Z181100006218114 and Z181100006218110) to M.N. and P.L..
+
