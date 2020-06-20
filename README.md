@@ -47,6 +47,18 @@ iqtree -s $align_trim_file --prefix iqtree_result -m GTR+F+R2 -B 1000 -cmax 30 -
 # RAXML phylogenetic analysis
 raxmlHPC-PTHREADS -s $align_trim_file -n raxmltree_result -m GTRGAMMAI -f a -x 12345 -N 1000 -p 123456 -T 24 -k
 ~~~
+## Genome assembly and variations calling
 
+1. To obtain consensus sequences and deletion mutations: `snakemake -s nCov_assembly_pipeline.py  -p`
+
+2. iSNV and SNP mutations calling uses iSNV_calling.sh[]: bash iSNV_calling.sh  3,4,5
+
+## variations annotation
+
+1. To convert iSNV table into vcf format(VCFv4.1) that can be recognized  by SnpEff software: python iSNVTable_2_vcf_allsample.py  -i  ./data/   -o ./allsamplesVcfPath/   -r   MN908947.3
+2. Annoting the mutation by using SnpEff software : `java -jar snpEff.jar ann  MN908947   ${sample}.vcf    >./{sample}.snpeffAnno.vcf`
+3. To Integrate all the samples' mutations annotion files into a single file: `python Snpeff_results_integrateTo1file -i  ./bigtable2vcf/outsnpeff/   -o  .allsampMutatAnno.txt.txt`
+
+4. To annotate the indel that were filted:`java -jar snpEff.jar ann  MN908947   ${sample}.indel.vcf    >./{sample}.indel.snpeffAnno.vcf`
 
 ## Figure scripts
