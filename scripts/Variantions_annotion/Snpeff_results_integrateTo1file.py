@@ -7,10 +7,10 @@ from optparse import OptionParser
 #This script is use to organize all the samples' mutations annotions by the SnpEff program into a single file.
 ################################################################################################################################
 #
-# For help as a standalone program type: python Snpeff_results_integrateTo1file-h
+# For help as a standalone program type: python Snpeff_results_integrateTo1file -h
 #
 # Examples:
-#	python Snpeff_results_integrateTo1file -i  ../bigtable2vcf/outsnpeff/   -o  ./allSnpEff.txt
+#	python Snpeff_results_integrateTo1file -i  $outsnpeffP   -o  ./allSnpEff.txt
 #	#parameters:
 #		-i  input path,output path of iSNV_calling.sh program."iSNV_with_SNP.all.txt","iSNV_info.txt"and"SNP_info.txt" are required in the input path.
 #		-o  output file, Containing annotated information for all sample mutations using snpeff software.
