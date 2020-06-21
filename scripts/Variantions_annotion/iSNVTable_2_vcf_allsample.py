@@ -13,7 +13,7 @@ import revert_modules
 # For help as a standalone program type: python iSNVTable_2_vcf_allsample.py -h
 #
 # Examples:
-#	    python iSNVTable_2_vcf_allsample.py  -i  ../allpatientsID_100.0.05.0/   -o ./test/   -r   MN908947.3
+#	    python iSNVTable_2_vcf_allsample.py  -i  ../data/   -o  $isnvTableVcfP   -r   MN908947.3
 #parameters:
 #			-i  input path,the path to the  output files of the program named "iSNV_calling.sh" ,these files need to be included in this path: "iSNV_with_SNP.all.txt","iSNV_info.txt"and"SNP_info.txt" .
 #			-o  output path, the path to save the output vcf files.
