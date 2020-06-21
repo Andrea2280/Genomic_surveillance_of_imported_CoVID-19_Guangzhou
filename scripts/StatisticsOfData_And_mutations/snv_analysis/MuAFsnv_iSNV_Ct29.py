@@ -15,7 +15,7 @@ import MuAFsnv_iSNV_Ct29_module  as shared_snvMOD
 # For help as a standalone program type: python MuAFsnv_iSNV_Ct29.py  -h
 #
 # Examples:
-#	   python MuAFsnv_iSNV_Ct29.py  -i  ../../../data/iSNV_with_SNP.all.txt  -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -o ../../../data/Fig4c-single_share.snvMuAF.txt
+#	   python MuAFsnv_iSNV_Ct29.py  -i  ../../../data/iSNV_with_SNP.all.txt  -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -o ../../../result/Fig4c-single_share.snvMuAF.txt
 #		
 #	
 ################################################################################################################################
