@@ -44,17 +44,17 @@ While China experienced a decline in daily growth rate of COVID-19, importations
 
 ## Genome assembly and variations calling
 
-1. To obtain consensus sequences and deletion mutations: `snakemake -s nCov_assembly_pipeline.py  -p`
+1. To obtain consensus sequences and deletion mutations: `snakemake -s GenomeAssembly_And_indelCalling.pipeline.py  -p`
 
-2. iSNV and SNP mutations calling uses iSNV_calling.sh[]: bash iSNV_calling.sh  3,4,5
+2. Calling iSNV and SNP mutations by using script "iSNV_calling.sh" according to https://github.com/generality/iSNV-calling: `bash iSNV_calling.sh  3,4,5`
 
 ## variations annotation
 
-1. To convert iSNV table into vcf format(VCFv4.1) that can be recognized  by SnpEff software: python iSNVTable_2_vcf_allsample.py  -i  ./data/   -o ./allsamplesVcfPath/   -r   MN908947.3
-2. Annoting the mutation by using SnpEff software : `java -jar snpEff.jar ann  MN908947   ${sample}.vcf    >./{sample}.snpeffAnno.vcf`
-3. To Integrate all the samples' mutations annotion files into a single file: `python Snpeff_results_integrateTo1file -i  ./bigtable2vcf/outsnpeff/   -o  .allsampMutatAnno.txt.txt`
+1. To convert iSNV table into vcf format(VCFv4.1) that can be recognized  by SnpEff software: `python ./scripts/Variantions_annotion/iSNVTable_2_vcf_allsample.py  -i  ./data/   -o $allsamplesVcfPath   -r   MN908947.3`
+2. Annoting the mutation by using SnpEff software ,for example: `java -jar snpEff.jar ann  MN908947   $$allsamplesVcfPath/${sample}.vcf    >$outSnpeff/{sample}.snpeffAnno.vcf`
+3. To Integrate all the samples' mutations annotion files into a single file: `python Snpeff_results_integrateTo1file -i   $outSnpeff/   -o  ./data/allsampMutatAnno.txt`
 
-4. To annotate the indel that were filted:`java -jar snpEff.jar ann  MN908947   ${sample}.indel.vcf    >./{sample}.indel.snpeffAnno.vcf`
+4. To annotate the indel that were filted:`java -jar snpEff.jar ann  MN908947   ${indelFPath}/${sample}.indel.vcf    >.${indelAnnoPath}/{sample}.indel.snpeffAnno.vcf`
 
 
 ## Citation
