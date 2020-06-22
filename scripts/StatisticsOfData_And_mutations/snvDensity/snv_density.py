@@ -11,8 +11,8 @@ from optparse import OptionParser
 # For help as a standalone program type: python  snv_density.py   -h
 #
 # Examples:
-#	1、python snv_density.py -i  ../../../data/iSNV_with_SNP.all.txt   -t  ../../../data/sampCtValuefile.txt  -o  ../../../data/SFig6a-snvDensity.Stat.txt
-#   2、python snv_density.py  -i ../../../data/iSNV_with_SNP.all.txt   -t  ../../../data/sampCtValuefile.txt  -o  ../../../data/SFig6b-Ct29_snvDensity.Stat.txt  -C 29
+#	1、python snv_density.py -i  ../../../data/iSNV_with_SNP.all.txt   -t  ../../../data/sampCtValuefile.txt  -o  ../../../result/SFig6a-snvDensity.Stat.txt
+#   2、python snv_density.py  -i ../../../data/iSNV_with_SNP.all.txt   -t  ../../../data/sampCtValuefile.txt  -o  ../../../result/SFig6b-Ct29_snvDensity.Stat.txt  -C 29
 #
 #
 #parameters:

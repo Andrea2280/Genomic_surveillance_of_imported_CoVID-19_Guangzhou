@@ -13,9 +13,9 @@ import allsampSNP_module  as geneM
 # For help as a standalone program type: python allsampSNP.py  -h  or python allsampSNP.py  -help
 #
 # Examples:
-#	    python allsampSNP.py -i  ../../../data/iSNV_with_SNP.all.txt   -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -g share -o ../../../data/
-#		python allsampSNP.py -i ../../../data/iSNV_with_SNP.all.txt   -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -g single -o ../../../data/
-#		python allsampSNP.py -i ../../../data/iSNV_with_SNP.all.txt   -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -g shareAndsingle -o ../../../data/
+#	    python allsampSNP.py -i  ../../../data/iSNV_with_SNP.all.txt   -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -g share -o ../../../result/
+#		python allsampSNP.py -i ../../../data/iSNV_with_SNP.all.txt   -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -g single -o ../../../result/
+#		python allsampSNP.py -i ../../../data/iSNV_with_SNP.all.txt   -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -g shareAndsingle -o ../../../result/
 #
 #		 
 # Notes:

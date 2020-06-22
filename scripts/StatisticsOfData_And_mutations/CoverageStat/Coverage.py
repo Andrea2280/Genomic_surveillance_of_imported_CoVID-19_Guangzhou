@@ -11,7 +11,7 @@ import Coverage_module
 # For help as a standalone program type: python Ct_Coverage.py   -h
 #
 # Examples:
-#	python Coverage.py   -i ../../../data/person200/  -c ../../../data/sampCtValuefile.txt  -o  ../../../data/Fig1c-CoverageVSCt.txt
+#	python Coverage.py   -i ../../../data/person200/  -c ../../../data/sampCtValuefile.txt  -o  ../../../result/Fig1c-CoverageVSCt.txt
 #	#parameters:
 #		-i  Path to depth files generated from 'samtools depth' commond for all samples.
 #		-c  Input file including the  Ct value of each sample

@@ -10,8 +10,8 @@ import Ct29_snv_module  as geneM
 # For help as a standalone program type: python Ct29_snv.py  -h
 #
 # Examples:
-#	   1、python Ct29_snv.py   -i  ../../../data/iSNV_with_SNP.all.txt  -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -g share -o ../../../data/
-#      2、python Ct29_snv.py   -i  ../../../data/iSNV_with_SNP.all.txt  -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -g single -o ../../../data/
+#	   1、python Ct29_snv.py   -i  ../../../data/iSNV_with_SNP.all.txt  -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -g share -o ../../../result/
+#      2、python Ct29_snv.py   -i  ../../../data/iSNV_with_SNP.all.txt  -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -g single -o ../../../result/
 #		
 #	
 ################################################################################################################################

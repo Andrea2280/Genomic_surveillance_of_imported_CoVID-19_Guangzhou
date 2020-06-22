@@ -15,7 +15,7 @@ import MuAFSpectrum_Ct29_module  as MuAFSpectrumMOD
 # For help as a standalone program type: python MuAFSpectrum_Ct29.py   -h
 #
 # Examples:
-#	   python MuAFSpectrum_Ct29.py  -i  ../../../data/iSNV_with_SNP.all.txt  -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -o ../../../data  
+#	   python MuAFSpectrum_Ct29.py  -i  ../../../data/iSNV_with_SNP.all.txt  -t  ../../../data/sampCtValuefile.txt  -e  ../../../data/allsampMutatAnno.txt  -o ../../../result  
 #		
 # From "iSNV_with_SNP.txt"	
 ################################################################################################################################
